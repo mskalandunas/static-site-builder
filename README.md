@@ -1,0 +1,2 @@
+# shs
+A static site.
