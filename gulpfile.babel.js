@@ -11,51 +11,84 @@ import sass from 'gulp-sass';
 import sourceMaps from 'gulp-sourcemaps';
 import webpack from 'webpack-stream';
 
-const staticFiles = [
+const DESTINATION = {
+    CSS: 'main.css',
+    DIRECTORY: 'dist/',
+    JAVASCRIPT: 'main.js'
+};
+
+const SOURCE = {
+    HTML: 'src/**/*.html',
+    JAVASCRIPT: 'src/js/index.js',
+    SASS: 'src/sass/base.scss',
+    STATIC: [
+        'src/**/*.ico',
+        'src/**/*.jpg',
+        'src/**/*.png',
+        'src/**/*.svg'
+    ]
+};
+
+const STATIC_FILES = [
     'src/**/*.ico',
     'src/**/*.jpg',
     'src/**/*.svg',
     'src/**/*.png'
 ];
 
-const targetBrowser = {
+const TARGET_BROWSERS = {
     browsers: [
         'last 2 major versions',
         'ie 11'
     ]
 };
 
-gulp.task('html:dev', () => gulp.src('src/*.html')
+const TASKS = {
+    BUILD: 'build',
+    DEFAULT: 'default',
+    HTML: 'html',
+    SASS: 'sass',
+    STATIC: 'static',
+    WATCH: 'watch',
+    WEBPACK: 'webpack'
+};
+
+const WATCH_FILES = {
+    JAVASCRIPT: 'src/**/*.js',
+    SASS: 'src/**/*.scss'
+};
+
+gulp.task(TASKS.HTML, () => gulp.src(SOURCE.HTML)
     .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true }))
-    .pipe(rmHtmlComments()).pipe(gulp.dest('dist/'))
+    .pipe(rmHtmlComments()).pipe(gulp.dest(DESTINATION.DIRECTORY))
 );
 
-gulp.task('sass:dev', () => gulp.src('src/sass/base.scss')
+gulp.task(TASKS.SASS, () => gulp.src(SOURCE.SASS)
     .pipe(sourceMaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourceMaps.write())
-    .pipe(autoprefixer(targetBrowser))
-    .pipe(concatCss('main.css'))
+    .pipe(autoprefixer(TARGET_BROWSERS))
+    .pipe(concatCss(DESTINATION.CSS))
     .pipe(cssNano())
-    .pipe(gulp.dest('dist/'))
+    .pipe(gulp.dest(DESTINATION.DIRECTORY))
 );
 
-gulp.task('static:dev', () => gulp.src(staticFiles).pipe(gulp.dest(__dirname + '/dist/')));
+gulp.task(TASKS.STATIC, () => gulp.src(SOURCE.STATIC_FILES).pipe(gulp.dest(`${__dirname}/${DESTINATION.DIRECTORY}`)));
 
-gulp.task('webpack:dev', () => gulp.src('src/js/index.js')
+gulp.task(TASKS.WEBPACK, () => gulp.src(SOURCE.JAVASCRIPT)
     .pipe(webpack({
         output: {
-            filename: 'main.js'
+            filename: DESTINATION.JAVASCRIPT
         }
     }))
-    .pipe(gulp.dest('dist/'))
+    .pipe(gulp.dest(DESTINATION.DIRECTORY))
 );
 
-gulp.task('watch:build', () => {
-    gulp.watch(staticFiles, ['static:dev']);
-    gulp.watch('src/**/*.scss', ['sass:dev']);
-    gulp.watch('src/**/*.js', ['webpack:dev']);
+gulp.task(TASKS.WATCH, () => {
+    gulp.watch(STATIC_FILES, [TASKS.STATIC]);
+    gulp.watch(WATCH_FILES.SASS, [TASKS.SASS]);
+    gulp.watch(WATCH_FILES.JAVASCRIPT, [TASKS.WEBPACK]);
 });
 
-gulp.task('build', ['html:dev', 'sass:dev', 'static:dev', 'webpack:dev']);
-gulp.task('default', ['build', 'watch:build']);
+gulp.task(TASKS.BUILD, [TASKS.HTML, TASKS.SASS, TASKS.STATIC, TASKS.WEBPACK]);
+gulp.task(TASKS.DEFAULT, [TASKS.BUILD, TASKS.WATCH]);
