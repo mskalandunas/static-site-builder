@@ -15,7 +15,6 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
-    "express": "^4.16.3",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-concat-css": "^3.1.0",
@@ -38,7 +37,7 @@
   "scripts": {
     "lint": "eslint --ext=.js,.html . && sass-lint -c -v -q",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "gulp default"
   },
   "repository": {
     "type": "git",
