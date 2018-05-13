@@ -25,12 +25,13 @@ const targetBrowser = {
     ]
 };
 
-gulp.task('sass:dev', () =>  gulp.src('src/sass/base.scss')
+gulp.task('sass:dev', () => gulp.src('src/sass/base.scss')
     .pipe(sourceMaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourceMaps.write())
     .pipe(autoprefixer(targetBrowser))
     .pipe(concatCss('main.css'))
+    .pipe(cssNano)
     .pipe(gulp.dest('dist/'))
 );
 
