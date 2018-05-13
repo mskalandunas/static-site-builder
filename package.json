@@ -1,7 +1,7 @@
 {
   "name": "shs",
   "version": "0.1.0",
-  "description": "A static site.",
+  "description": "A static site builder.",
   "main": "gulpfile.babel.js",
   "dependencies": {},
   "devDependencies": {
