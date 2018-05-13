@@ -13,6 +13,5 @@ A static site.
 
 ### TODO
 * inline styles
-* GZIP
 * Above/below the fold bundling
 * create a style inject system?
