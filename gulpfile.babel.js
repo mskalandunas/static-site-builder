@@ -1,17 +1,17 @@
 /*
     This should eventually be built with parcel
 */
-
 import gulp from 'gulp';
+import autoprefixer from 'gulp-autoprefixer';
+import concatCss from 'gulp-concat-css';
+import cssNano from 'gulp-cssnano';
+import htmlmin from 'gulp-htmlmin';
+import rmHtmlComments from 'gulp-remove-html-comments';
 import sass from 'gulp-sass';
 import sourceMaps from 'gulp-sourcemaps';
-import autoprefixer from 'gulp-autoprefixer';
-import cssNano from 'gulp-cssnano';
-import concatCss from 'gulp-concat-css';
 import webpack from 'webpack-stream';
 
 const staticFiles = [
-    'src/**/*.html',
     'src/**/*.ico',
     'src/**/*.jpg',
     'src/**/*.svg',
@@ -25,13 +25,18 @@ const targetBrowser = {
     ]
 };
 
+gulp.task('html:dev', () => gulp.src('src/*.html')
+    .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true }))
+    .pipe(rmHtmlComments()).pipe(gulp.dest('dist/'))
+);
+
 gulp.task('sass:dev', () => gulp.src('src/sass/base.scss')
     .pipe(sourceMaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourceMaps.write())
     .pipe(autoprefixer(targetBrowser))
     .pipe(concatCss('main.css'))
-    .pipe(cssNano)
+    .pipe(cssNano())
     .pipe(gulp.dest('dist/'))
 );
 
@@ -52,5 +57,5 @@ gulp.task('watch:build', () => {
     gulp.watch('src/**/*.js', ['webpack:dev']);
 });
 
-gulp.task('build', ['static:dev', 'webpack:dev', 'sass:dev']);
+gulp.task('build', ['html:dev', 'sass:dev', 'static:dev', 'webpack:dev']);
 gulp.task('default', ['build', 'watch:build']);
