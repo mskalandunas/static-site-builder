@@ -27,12 +27,12 @@
     "sass-lint": "^1.12.1",
     "webpack-stream": "^4.0.3"
   },
-  "pre-commit": {
-    "npm run lint"
-  },
-  "pre-push": {
-    "npm run lint"
-  },
+  "pre-commit": [
+    "lint"
+  ],
+  "pre-push": [
+    "lint"
+  ],
   "scripts": {
     "lint": "eslint --ext=.js,.html . && sass-lint -c -v -q",
     "test": "echo \"Error: no test specified\" && exit 1",
