@@ -8,15 +8,7 @@ import sass from 'gulp-sass';
 import sourceMaps from 'gulp-sourcemaps';
 import webpack from 'webpack-stream';
 
-import * as CONSTANTS from './constants';
-
-const {
-    DESTINATION,
-    SOURCE,
-    TARGET_BROWSERS,
-    TASKS,
-    WATCH_FILES
-} = CONSTANTS;
+import { DESTINATION, SOURCE, TARGET_BROWSERS, TASKS, WATCH_FILES } from './constants';
 
 gulp.task(TASKS.HTML, () => gulp.src(SOURCE.HTML)
     .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true }))
