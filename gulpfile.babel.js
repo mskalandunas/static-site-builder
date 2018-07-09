@@ -8,45 +8,15 @@ import sass from 'gulp-sass';
 import sourceMaps from 'gulp-sourcemaps';
 import webpack from 'webpack-stream';
 
-const DESTINATION = {
-    CSS: 'main.css',
-    DIRECTORY: 'dist/',
-    JAVASCRIPT: 'main.js'
-};
+import * as CONSTANTS from './constants';
 
-const SOURCE = {
-    HTML: 'src/**/*.html',
-    JAVASCRIPT: 'src/js/index.js',
-    SASS: 'src/sass/base.scss',
-    STATIC: [
-        'src/**/*.ico',
-        'src/**/*.jpg',
-        'src/**/*.png',
-        'src/**/*.svg'
-    ]
-};
-
-const TARGET_BROWSERS = {
-    browsers: [
-        'last 2 major versions',
-        'ie 11'
-    ]
-};
-
-const TASKS = {
-    BUILD: 'build',
-    DEFAULT: 'default',
-    HTML: 'html',
-    SASS: 'sass',
-    STATIC: 'static',
-    WATCH: 'watch',
-    WEBPACK: 'webpack'
-};
-
-const WATCH_FILES = {
-    JAVASCRIPT: 'src/**/*.js',
-    SASS: 'src/**/*.scss'
-};
+const {
+    DESTINATION,
+    SOURCE,
+    TARGET_BROWSERS,
+    TASKS,
+    WATCH_FILES
+} = CONSTANTS;
 
 gulp.task(TASKS.HTML, () => gulp.src(SOURCE.HTML)
     .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true }))
