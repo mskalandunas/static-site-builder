@@ -1,6 +1,3 @@
-/*
-    This should eventually be built with parcel
-*/
 import gulp from 'gulp';
 import autoprefixer from 'gulp-autoprefixer';
 import concatCss from 'gulp-concat-css';
@@ -28,13 +25,6 @@ const SOURCE = {
         'src/**/*.svg'
     ]
 };
-
-const STATIC_FILES = [
-    'src/**/*.ico',
-    'src/**/*.jpg',
-    'src/**/*.svg',
-    'src/**/*.png'
-];
 
 const TARGET_BROWSERS = {
     browsers: [
@@ -73,7 +63,7 @@ gulp.task(TASKS.SASS, () => gulp.src(SOURCE.SASS)
     .pipe(gulp.dest(DESTINATION.DIRECTORY))
 );
 
-gulp.task(TASKS.STATIC, () => gulp.src(SOURCE.STATIC_FILES).pipe(gulp.dest(`${__dirname}/${DESTINATION.DIRECTORY}`)));
+gulp.task(TASKS.STATIC, () => gulp.src(SOURCE.STATIC).pipe(gulp.dest(`${__dirname}/${DESTINATION.DIRECTORY}`)));
 
 gulp.task(TASKS.WEBPACK, () => gulp.src(SOURCE.JAVASCRIPT)
     .pipe(webpack({
@@ -85,7 +75,7 @@ gulp.task(TASKS.WEBPACK, () => gulp.src(SOURCE.JAVASCRIPT)
 );
 
 gulp.task(TASKS.WATCH, () => {
-    gulp.watch(STATIC_FILES, [TASKS.STATIC]);
+    gulp.watch(SOURCE.STATIC, [TASKS.STATIC]);
     gulp.watch(WATCH_FILES.SASS, [TASKS.SASS]);
     gulp.watch(WATCH_FILES.JAVASCRIPT, [TASKS.WEBPACK]);
 });
