@@ -7,7 +7,7 @@ export const DESTINATION = {
 
 export const SOURCE = {
     CSS: 'src/**/*.css',
-    HTML: 'src/**/*.html',
+    HTML: 'src/*.html',
     JAVASCRIPT: 'src/js/index.js',
     SASS: 'src/sass/base.scss',
     STATIC: [
